@@ -54,6 +54,11 @@ class RadixNumber
 		return $this;
 	}
 
+	public function getSign()
+	{
+		return $this->getSignificand() < 0 ? -1 : 1;
+	}
+
 	public function __toString()
 	{
 		return $this->significand . "x" . $this->base . "^" . $this->exponent;
