@@ -2,7 +2,7 @@
 
 namespace Engine\Test\Maths;
 
-class RadixNumberTest extends \PhpUnit\Framework\TestCase
+class RadixNumberTest extends \PHPUnit\Framework\TestCase
 {
 	public function test()
 	{

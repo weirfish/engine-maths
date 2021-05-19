@@ -66,7 +66,7 @@ class RadixNumber
 
 	public function __debugInfo()
 	{
-		return [(string)$this];
+		return ["value" => (string)$this];
 	}
 
 	public function round($precision = 4) : self
@@ -74,5 +74,28 @@ class RadixNumber
 		$this->significand = round($this->significand, $precision);
 
 		return $this;
+	}
+
+	public function simplify()
+	{
+		while(abs($this->getSignificand() / $this->getBase()) >= 1)
+		{
+			$this->setSignificand($this->getSignificand() / $this->getBase());
+			$this->setExponent($this->getExponent() + 1);
+		}
+
+		while(abs($this->getSignificand() / $this->getBase()) < 0.1)
+		{
+			$this->setSignificand($this->getSignificand() * $this->getBase());
+			$this->setExponent($this->getExponent() - 1);
+		}
+
+		return $this;
+	}
+
+	public function toBigInt()
+	{
+		if($this->exponent < 0)
+			throw new \LogicException("A negative exponent cannot be an int");
 	}
 }

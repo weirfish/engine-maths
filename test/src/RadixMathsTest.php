@@ -49,6 +49,6 @@ abstract class RadixMathsTest extends \PHPUnit\Framework\TestCase
 
 	private function getExponent()
 	{
-		return \Engine\Util\Random::number(1, 20);
+		return \Engine\Util\Random::number(1, 5);
 	}
 }

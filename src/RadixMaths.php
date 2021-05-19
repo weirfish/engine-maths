@@ -22,13 +22,11 @@ class RadixMaths
 		$new_significand = $significand_sign * pow($base, fmod($new_exponent, 1));
 		$new_exponent    = (int)floor($new_exponent);
 
-		return self::simplify
-		(
-			RadixNumber::create()
-			->setBase($base)
-			->setExponent($new_exponent)
-			->setSignificand($new_significand)
-		);
+		return RadixNumber::create()
+		->setBase($base)
+		->setExponent($new_exponent)
+		->setSignificand($new_significand)
+		->simplify();
 	}
 
 	public static function convertToExponent(RadixNumber $number, int $exponent) : RadixNumber
@@ -63,7 +61,7 @@ class RadixMaths
 		->setBase($a->getBase())
 		->setSignificand($a->getSignificand() + $b_in_exponent_a->getSignificand());
 
-		return self::simplify($result);
+		return $result->simplify();
 	}
 
 	public static function subtract(RadixNumber $a, RadixNumber $b) : RadixNumber
@@ -83,7 +81,7 @@ class RadixMaths
 		->setSignificand($a->getSignificand() * $b_in_base_a->getSignificand())
 		->setExponent($a->getExponent() + $b_in_base_a->getExponent());
 
-		return self::simplify($result);
+		return $result->simplify();
 	}
 
 	public static function divide(RadixNumber $a, RadixNumber $b) : RadixNumber
@@ -95,26 +93,7 @@ class RadixMaths
 		->setSignificand($a->getSignificand() / $b_in_base_a->getSignificand())
 		->setExponent($a->getExponent() - $b_in_base_a->getExponent());
 
-		return self::simplify($result);
-	}
-
-	public static function simplify(RadixNumber $a) : RadixNumber
-	{
-		$copy = clone $a;
-
-		while(abs($copy->getSignificand() / $copy->getBase()) >= 1)
-		{
-			$copy->setSignificand($copy->getSignificand() / $copy->getBase());
-			$copy->setExponent($copy->getExponent() + 1);
-		}
-
-		while(abs($copy->getSignificand() / $copy->getBase()) < 0.1)
-		{
-			$copy->setSignificand($copy->getSignificand() * $copy->getBase());
-			$copy->setExponent($copy->getExponent() - 1);
-		}
-
-		return $copy;
+		return $result->simplify();
 	}
 
 	public static function isEqual(RadixNumber $a, RadixNumber $b) : bool
