@@ -15,17 +15,17 @@ class RadixMaths
 		// log[b](n) + xlog[b](a) = z + y
 		// Where y is an integer, and z is the remaining decimal
 
-		$new_exponent = log(abs($number->getSignificand()), $base) + ($number->getExponent() * log($number->getBase(), $base));
+		$newExponent = log(abs($number->getSignificand()), $base) + ($number->getExponent() * log($number->getBase(), $base));
 
-		$significand_sign = $number->getSign();
+		$significandSign = $number->getSign();
 
-		$new_significand = $significand_sign * pow($base, fmod($new_exponent, 1));
-		$new_exponent    = (int)floor($new_exponent);
+		$newSignificand = $significandSign * pow($base, fmod($newExponent, 1));
+		$newExponent    = (int)floor($newExponent);
 
 		return RadixNumber::create()
 		->setBase($base)
-		->setExponent($new_exponent)
-		->setSignificand($new_significand)
+		->setExponent($newExponent)
+		->setSignificand($newSignificand)
 		->simplify();
 	}
 
@@ -52,88 +52,88 @@ class RadixMaths
 
 	public static function add(RadixNumber $a, RadixNumber $b) : RadixNumber
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
 
-		$b_in_exponent_a = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInExponentA = self::convertToExponent($bInBaseA, $a->getExponent());
 
 		$result = RadixNumber::create()
 		->setExponent($a->getExponent())
 		->setBase($a->getBase())
-		->setSignificand($a->getSignificand() + $b_in_exponent_a->getSignificand());
+		->setSignificand($a->getSignificand() + $bInExponentA->getSignificand());
 
 		return $result->simplify();
 	}
 
 	public static function subtract(RadixNumber $a, RadixNumber $b) : RadixNumber
 	{
-		$b_in_negative = (clone $b)
+		$bInNegative = (clone $b)
 		->setSignificand($b->getSignificand() * -1);
 
-		return self::add($a, $b_in_negative);
+		return self::add($a, $bInNegative);
 	}
 
 	public static function multiply(RadixNumber $a, RadixNumber $b) : RadixNumber
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
 
 		$result = RadixNumber::create()
 		->setBase($a->getBase())
-		->setSignificand($a->getSignificand() * $b_in_base_a->getSignificand())
-		->setExponent($a->getExponent() + $b_in_base_a->getExponent());
+		->setSignificand($a->getSignificand() * $bInBaseA->getSignificand())
+		->setExponent($a->getExponent() + $bInBaseA->getExponent());
 
 		return $result->simplify();
 	}
 
 	public static function divide(RadixNumber $a, RadixNumber $b) : RadixNumber
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
 
 		$result = RadixNumber::create()
 		->setBase($a->getBase())
-		->setSignificand($a->getSignificand() / $b_in_base_a->getSignificand())
-		->setExponent($a->getExponent() - $b_in_base_a->getExponent());
+		->setSignificand($a->getSignificand() / $bInBaseA->getSignificand())
+		->setExponent($a->getExponent() - $bInBaseA->getExponent());
 
 		return $result->simplify();
 	}
 
 	public static function isEqual(RadixNumber $a, RadixNumber $b) : bool
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
-		$b_in_exp_a  = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
+		$bInExponentA  = self::convertToExponent($bInBaseA, $a->getExponent());
 
-		return round($b_in_exp_a->getSignificand(), 10) == round($a->getSignificand(), 10);
+		return round($bInExponentA->getSignificand(), 10) == round($a->getSignificand(), 10);
 	}
 
 	public static function isLessThan(RadixNumber $a, RadixNumber $b) : bool
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
-		$b_in_exp_a  = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
+		$bInExponentA  = self::convertToExponent($bInBaseA, $a->getExponent());
 
-		return round($b_in_exp_a->getSignificand(), 10) < round($a->getSignificand(), 10);
+		return round($bInExponentA->getSignificand(), 10) < round($a->getSignificand(), 10);
 	}
 
 	public static function isLessThanOrEqual(RadixNumber $a, RadixNumber $b) : bool
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
-		$b_in_exp_a  = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
+		$bInExponentA  = self::convertToExponent($bInBaseA, $a->getExponent());
 
-		return round($b_in_exp_a->getSignificand(), 10) <= round($a->getSignificand(), 10);
+		return round($bInExponentA->getSignificand(), 10) <= round($a->getSignificand(), 10);
 	}
 
 	public static function isGreaterThan(RadixNumber $a, RadixNumber $b) : bool
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
-		$b_in_exp_a  = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
+		$bInExponentA  = self::convertToExponent($bInBaseA, $a->getExponent());
 
-		return round($b_in_exp_a->getSignificand(), 10) > round($a->getSignificand(), 10);
+		return round($bInExponentA->getSignificand(), 10) > round($a->getSignificand(), 10);
 	}
 
 	public static function isGreaterThanOrEqual(RadixNumber $a, RadixNumber $b) : bool
 	{
-		$b_in_base_a = self::convertToBase($b, $a->getBase());
-		$b_in_exp_a  = self::convertToExponent($b_in_base_a, $a->getExponent());
+		$bInBaseA = self::convertToBase($b, $a->getBase());
+		$bInExponentA  = self::convertToExponent($bInBaseA, $a->getExponent());
 
-		return round($b_in_exp_a->getSignificand(), 10) >= round($a->getSignificand(), 10);
+		return round($bInExponentA->getSignificand(), 10) >= round($a->getSignificand(), 10);
 	}
 }
 

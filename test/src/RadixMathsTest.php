@@ -4,7 +4,7 @@ namespace Engine\Test\Maths;
 
 abstract class RadixMathsTest extends \PHPUnit\Framework\TestCase
 {
-	public function getEqualPair($same_base = true, $same_exp = true)
+	public function getEqualPair($sameBase = true, $sameExp = true)
 	{
 		$a = new \Engine\Maths\RadixNumber
 		(
@@ -13,24 +13,24 @@ abstract class RadixMathsTest extends \PHPUnit\Framework\TestCase
 			$this->getExponent()
 		);
 		
-		$b = $same_base ? clone $a : \Engine\Maths\RadixMaths::convertToBase($a, $this->getBase());
-		$b = $same_exp  ? clone $b : \Engine\Maths\RadixMaths::convertToExponent($b, $this->getExponent());
+		$b = $sameBase ? clone $a : \Engine\Maths\RadixMaths::convertToBase($a, $this->getBase());
+		$b = $sameExp  ? clone $b : \Engine\Maths\RadixMaths::convertToExponent($b, $this->getExponent());
 
 		return [$a, $b];
 	}
 
-	public function getLessThanPair($same_base = true, $same_exp = true)
+	public function getLessThanPair($sameBase = true, $sameExp = true)
 	{
-		[$a, $b] = $this->getEqualPair($same_base, $same_exp);
+		[$a, $b] = $this->getEqualPair($sameBase, $sameExp);
 
 		$b->setSignificand($b->getSignificand() - \Engine\Util\Random::number(10, 99));
 
 		return [$a, $b];
 	}
 
-	public function getGreaterThanPair($same_base = true, $same_exp = true)
+	public function getGreaterThanPair($sameBase = true, $sameExp = true)
 	{
-		[$a, $b] = $this->getEqualPair($same_base, $same_exp);
+		[$a, $b] = $this->getEqualPair($sameBase, $sameExp);
 
 		$b->setSignificand($b->getSignificand() + \Engine\Util\Random::number(10, 99));
 

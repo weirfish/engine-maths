@@ -6,26 +6,26 @@ class BigIntMaths
 {
 	public static function add(BigInt $a, BigInt $b) : BigInt
 	{
-		$a_nums = array_reverse($a->getNumbers());
-		$b_nums = array_reverse($b->getNumbers());
+		$aNums = array_reverse($a->getNumbers());
+		$bNums = array_reverse($b->getNumbers());
 
-		$return_nums = [];
+		$returnNums = [];
 		$carry       = false;
 
-		for($i = 0; $i < max(count($a_nums), count($b_nums)); $i++)
+		for($i = 0; $i < max(count($aNums), count($bNums)); $i++)
 		{
-			$return_num = $a_nums[$i] + $b_nums[$i] + ($carry ? 1 : 0);
+			$returnNum = $aNums[$i] + $bNums[$i] + ($carry ? 1 : 0);
 
-			if(strlen((string)$return_num) > BigInt::getMaxBlockLength())
+			if(strlen((string)$returnNum) > BigInt::getMaxBlockLength())
 			{
 				$carry      = true;
-				$return_num = substr((string)$return_num, 1);
+				$returnNum = substr((string)$returnNum, 1);
 			}
 
-			$return_nums[] = $return_nums;
+			$returnNums[] = $returnNums;
 		}
 
-		return BigInt::fromStringArray($return_nums);
+		return BigInt::fromStringArray($returnNums);
 	}
 	public static function subtract(BigInt $a, BigInt $b) : BigInt
 	{
@@ -91,14 +91,14 @@ class BigIntMaths
 		if(($a->getLength() <=> $b->getLength()) !== 0)
 			return $a->getLength() <=> $b->getLength();
 
-		$a_nums = $a->getNumbers();
-		$b_nums = $b->getNumbers();
+		$aNums = $a->getNumbers();
+		$bNums = $b->getNumbers();
 
 		// Otherwise, compare them from most significant block down.
-		for($i = 0; $i < count($a_nums); $i++)
+		for($i = 0; $i < count($aNums); $i++)
 		{
-			if(($a_nums[$i] <=> $b_nums[$i]) !== 0)
-				return $a_nums[$i] <=> $b_nums[$i];
+			if(($aNums[$i] <=> $bNums[$i]) !== 0)
+				return $aNums[$i] <=> $bNums[$i];
 		}
 
 		return 0;

@@ -6,9 +6,9 @@ class GolemsTest extends \PHPUnit\Framework\TestCase
 {
 	function test()
 	{
-		$starting_copiers = 25;
+		$startingCopiers = 25;
 
-		$radix = new \Engine\Maths\RadixNumber($starting_copiers, 10, 0);
+		$radix = new \Engine\Maths\RadixNumber($startingCopiers, 10, 0);
 		
 		$radix = \Engine\Maths\RadixMaths::simplify($radix);
 

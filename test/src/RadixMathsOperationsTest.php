@@ -7,18 +7,18 @@ class RadixMathsOperationsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * @dataProvider reduceDataProvider
 	 */
-	public function testReduce($start_significand, $start_base, $start_exponent, $expected_significand, $expected_exponent)
+	public function testReduce($startSignificand, $startBase, $startExponent, $expectedSignificand, $expectedExponent)
 	{
 		$start = \Engine\Maths\RadixNumber::create()
-		->setSignificand($start_significand)
-		->setBase($start_base)
-		->setExponent($start_exponent);
+		->setSignificand($startSignificand)
+		->setBase($startBase)
+		->setExponent($startExponent);
 
 		$actual = \Engine\Maths\RadixMaths::simplify($start);
 
 		$this->assertEquals($start->getBase(), $actual->getBase());
-		$this->assertEquals($expected_significand, $actual->getSignificand());
-		$this->assertEquals($expected_exponent, $actual->getExponent());
+		$this->assertEquals($expectedSignificand, $actual->getSignificand());
+		$this->assertEquals($expectedExponent, $actual->getExponent());
 	}
 
 	public function reduceDataProvider()
